@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<title>Rochak Kunwar's Home Page-2</title>
+	<LINK rel=StyleSheet href="http://157.201.194.254/~rochak/style.css">
+ 
+ 		<script>
+			var set;
+			function myFunction()
+			{
+				if (set == 1){
+					document.getElementById("aprate").onchange = function () { calculate() };
+					document.getElementById("lterm").onchange = function () { calculate() };
+					document.getElementById("lamount").onchange = function () { calculate() };
+			}
+			}
+				function calculate() {
+					var apr = document.getElementById("aprate").value;
+					var lterm = document.getElementById("lterm").value;
+					var lamount = document.getElementById("lamount").value;
+					var tempapr = apr;
+					var templterm = lterm;
+					var templamount = lamount;
+					var fff;
+
+					if ((apr * 1) != tempapr || (lterm * 1) != templterm || (lamount * 1) != templamount || apr <= 0 || apr >= 25.0 || lterm <= 0.0 || lterm > 40) {
+						if ((apr * 1) != tempapr || apr == "" || apr < 0 || apr >= 25.0) {
+							document.getElementById("aprate").value = "Please input number between 0 and 25.00%";
+							document.getElementById("aprate").select();
+							fff = 1;
+						}
+						if ((lterm * 1) != templterm || lterm == "" || lterm <= 0.0 || lterm > 40) {
+							document.getElementById("lterm").value = "Please input only numbers between zero and less than equal to 40";
+							if (fff == 1)
+								;
+							else
+							{ document.getElementById("lterm").select(); fff = 2 }
+						}
+
+						if ((lamount * 1) != templamount || lamount == "") {
+							document.getElementById("lamount").value = "Please input numbers only";
+							if (fff == 1 || fff == 2)
+								;
+							else
+								document.getElementById("lamount").select();
+						}
+						set = 1;
+						return false;
+					}
+
+					if (apr <= 0 || apr >= 25.0 || lterm <= 0.0 || lterm > 40) {
+						if (apr < 0 || apr > 25.0) {
+							document.getElementById("aprate").value = "Only between 0 and 25.00%";
+							document.getElementById("aprate").select();
+							fff = 1;
+						}
+
+						if (lterm <= 0.0 || lterm > 40) {
+							document.getElementById("lterm").value = "more than zero and less or equal to 40 only";
+							if (fff == 1)
+								;
+							else
+								document.getElementById("lterm").select();
+						}
+						set = 1;
+						return false;
+					}
+				
+
+					else if (apr > 0 || apr < 25 || lterm > 0 || lterm <= 40)
+						//this is where I need my PHP
+					{
+						set = 1;
+						return true;
+						/*var c = (apr / 100) / 12;
+						var poww = Math.pow((1 + c), lterm);
+						var mpayment = lamount * c * poww / (poww - 1);
+					    mpayment = mpayment.toFixed(2);
+						document.getElementById("mpayment").value = mpayment;
+						set = 1;*/
+					}
+				}
+
+
+				function resett() {
+					document.getElementById("aprate").focus();
+					set = 0;
+				}
+
+
+
+		</script>
+</head>
+
+
+<body style="background-image:url(back.jpg)" onload="resett()">
+	<h1 style="color: forestgreen; text-align:center">Mortage Calculator</h1>
+
+	<form action="mortgage.php" method="post" onsubmit="return calculate();" onreset="resett()">
+
+		<p id="error1"></p>
+		<p id="error2"></p>
+
+		<label for="aprate">Annual Percentage Rate</label>
+		<input type="text" onchange="myFunction()" size="2"  id="aprate" name="aprate" placeholder="Annual Percentage rate"><br />
+
+		<label for="lterm">Loan Term</label>
+		<input type="text" onchange="myFunction()" id="lterm" name="lterm" placeholder="Loan Term"><br />
+
+		<label for="lamount">Loan Amount</label>
+		<input type="text" onchange="myFunction()" id="lamount" name="lamount" placeholder="Loan Amount"><br />
+
+		<button type="submit" value="submit"> Calculate </button>
+		<button type="reset" value="reset">Reset</button>
+
+		<br /><br />
+
+		<label for="mpayment">Monthly Payment</label>
+		<input type="text" id="mpayment" name="monthlypayment" placeholder="Monthly Payment" readonly><br />
+
+
+
+
+
+
+	</form>
+
+</body>
+</html>

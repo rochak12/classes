@@ -1,0 +1,4 @@
+﻿  schedule.cpp
+C:\Users\Rochak\Desktop\OS\week04\week04\scheduleFCFS.h(52,5): warning C4018: '<=': signed/unsigned mismatch
+MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol _main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+C:\Users\Rochak\Desktop\OS\week04\week04\Debug\week04.exe : fatal error LNK1120: 1 unresolved externals

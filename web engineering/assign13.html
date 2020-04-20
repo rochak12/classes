@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<title>assignment 13</title>
+	<link rel=StyleSheet type="text/css" href="style.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		h1 {
+			color: greenyellow;
+			text-align: center;
+		}
+
+  		/*External*/
+		form {
+			/*make 500px to make align everything together*/
+			width: 100%;
+			margin: 0px auto;
+			background-color: #f2f2f2;
+			padding: 20px;
+			border-radius: 5px;
+		}
+
+		.flex {
+			display: flex;
+		}
+
+
+
+		td, th {
+			border: 1px solid black;
+			background-color: white;
+		}
+
+		input[type=text], select {
+			width: initial;
+			margin: 5px 12px;
+			width: 120px;
+		}
+
+		html, body {
+			max-width: 100%;
+			/*	overflow-x: hidden;*/
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+		var p;
+		var po;
+		var iarray = [];
+		var z;
+   var globalObj;
+     ptype = $("#ptype").val();
+			fname1 = $("#fname1").val();
+			lname1 = $("#lname1").val();
+			fname2  = $("#fname2").val();
+			lname2 = $("#lname2").val();
+			ptype = $("#ptype").val();
+			SI1 = $("#SI1").val();
+			SI2 = $("#SI2").val();
+			slevel = $("#slevel").val();
+			instrument = $("#instrument").val();
+			location1 = $("#building").val();
+			room = $("#room").val();
+			time = $("#time").val();
+
+
+    function check(p) {
+			var i;
+			for (i = 0 ; i < iarray.length; i++)
+				if (iarray[i] < p)
+					return true;
+			return false;
+		}
+
+		function priority(po) {
+			iarray.push(po);
+		}
+
+
+		function resett() {
+      document.getElementById("fname1").placeholder = "";
+      document.getElementById("lname1").placeholder = "";
+      document.getElementById("SI1").placeholder = "";
+      document.getElementById("fname2").placeholder = "";
+      document.getElementById("lname2").placeholder = "";
+      document.getElementById("SI2").placeholder = "";
+      document.getElementById("slevel").placeholder = "";
+      document.getElementById("instrument").placeholder = "";
+      document.getElementById("building").placeholder = "";
+      document.getElementById("room").placeholder = "";
+      document.getElementById("time").placeholder = "";
+			original();
+		}
+
+
+
+
+		/********************************************
+		Ajax request for reading JASON database
+		It is called "onload" or afte we enter in JASON database
+		*********************************************/
+		function original() {
+				var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function () {
+				if (this.readyState == 4 && this.status == 200) {
+         globalObj = JSON.parse(this.responseText);
+					build(this.responseText);
+				}
+			};
+
+			xhttp.open("GET", "assign13.txt", true);
+			xhttp.send();
+		}
+
+
+		/**************************************************
+		is called after validation is done
+		This writes in JSON
+		***************************************************/
+		function function1()
+    {
+     var newstudent1 = {ptypej : ptype, fnamej : fname1, lnamej : lname1, SIj : SI1, slevelj : slevel, instrumentj : instrument, locationj : location1, roomj : room, timej : time};
+
+		 var newstudent2 = {ptypej : ptype, fnamej : fname2, lnamej : lname2, SIj : SI2, slevelj : slevel, instrumentj : instrument, locationj : location1, roomj : room, timej : time};
+   //concadinate JASON
+   globalObj.students.push(newstudent1);
+   if ($("#ptype").val() == "duet")
+   globalObj.students.push(newstudent2);
+
+
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function () {
+				if (this.readyState == 4 && this.status == 200) {
+				// this is called but it is changed by reading ajax request.
+        	build(this.responseText);
+				}
+			}; 
+
+      var url = "assign13.php?json=" + JSON.stringify(globalObj);
+			xhttp.open("GET", url, false);
+			xhttp.send();
+     $("#reset").click();
+    }
+
+
+		/****************************************************************************
+		This function will chnage the JASON read into HTML
+		***************************************************************************/
+		function build(str) {
+			var obj = JSON.parse(str);
+			var stri = "<table><tr><th>Performance Type</th><th>Name</th><th>Student ID</th><th>Skill Level</th><th>Instrument</th><th>Location</th><th>Room</th><th>Time</th></tr>";
+
+    for( var i = 0 ; i < obj.students.length ; i++)
+    {
+    stri += "<tr><td>" + obj.students[i].ptypej + "</td><td>" + obj.students[i].fnamej + " " + obj.students[i].lnamej + "</td><td>" + obj.students[i].SIj + "</td><td>" + obj.students[i].slevelj + "</td><td>" + obj.students[i].instrumentj + "</td><td>" + obj.students[i].locationj + "</td><td>" + obj.students[i].roomj + "</td><td>" + obj.students[i].timej +"</td></tr>";
+  }
+			document.getElementById("demo").innerHTML = stri;
+		}
+
+
+
+function hidea(){
+ ptype = $("#ptype").val();
+  if (ptype != "duet")
+    $("#flex2").hide(1000);
+
+  if (ptype == "duet")
+    $("#flex2").show(1000);
+}
+
+
+
+
+		function validate() {
+			iarray = [];
+			z = 0;
+      ptype = $("#ptype").val();
+			fname1 = $("#fname1").val();
+			lname1 = $("#lname1").val();
+			fname2  = $("#fname2").val();
+			lname2 = $("#lname2").val();
+			ptype = $("#ptype").val();
+			SI1 = $("#SI1").val();
+			SI2 = $("#SI2").val();
+			slevel = $("#slevel").val();
+			instrument = $("#instrument").val();
+			location1 = $("#building").val();
+			room = $("#room").val();
+			time = $("#time").val();
+
+
+			if (ptype == "") {
+				z = 1;
+				$("#ptype").val("");
+				priority(1);
+				$("#ptype").select();
+			}
+
+
+
+
+			if (fname1 == "") {
+				z = 1;
+       document.getElementById("fname1").placeholder = "Please fill your first name";
+				if (!(check(2))) {
+					priority(2);
+					$("#fname1").select();
+				}
+			}
+
+			if (lname1 == "") {
+				z = 1;
+	      document.getElementById("lname1").placeholder = "Please fill your last name";
+				if (!(check(3))) {
+					priority(3);
+					$("#lname1").select();
+				}
+			}
+
+			if (SI1 == "") {
+				z = 1;
+      document.getElementById("SI1").placeholder = "Please fill Student ID";
+				if (!(check(4))) {
+					priority(4);
+					$("#SI1").select();
+				}
+			}
+
+			if (fname2 == "" && (ptype == "duet" || ptype == "")) {
+				z = 1;
+      document.getElementById("fname2").placeholder = "Please fill 2nd person first name";
+				if (!(check(5))) {
+					$("#fname2").select();
+					priority(5);
+				}
+			}
+
+
+			if (lname2 == "" && (ptype == "duet" || ptype == "")) {
+				z = 1;
+       document.getElementById("lname2").placeholder = "Please fill 2nd person last name";
+				if (!(check(6))) {
+					priority(6);
+					$("#lname2").select();
+				}
+			}
+
+			if (SI2 == "" && (ptype == "duet" || ptype == "")) {
+				z = 1;
+				document.getElementById("SI2").placeholder = "Please fill Student ID";
+				if (!(check(7))) {
+					priority(7);
+					$("#SI2").select();
+				}
+			}
+
+			if (slevel == "") {
+				z = 1;
+				if (!(check(8))) {
+					priority(8);
+					$("#slevel").select();
+				}
+			}
+
+			if (instrument == "") {
+				z = 1;
+				$("#instrument").val("");
+				if (!(check(9))) {
+					priority(9);
+					$("#instrument").select();
+				}
+			}
+
+			if (location1 == "") {
+				z = 1;
+		document.getElementById("building").placeholder = "Please enter location";
+				if (!(check(10))) {
+					priority(10);
+					$("#building").select();
+				}
+			}
+
+
+
+			if (room == "") {
+				z = 1;
+				document.getElementById("room").placeholder = "Please enter room";
+				if (!(check(11))) {
+					priority(11);
+					$("#room").select();
+				}
+			}
+
+			if (time == "") {
+				z = 1;
+				if (!(check(12))) {
+					priority(12);
+					$("#time").select();
+				}
+			}
+
+
+			if (z == 0) {
+       $("#message").css('visibility', 'hidden');
+        function1();
+			}
+      else
+      $("#message").css('visibility', 'visible');
+		}
+
+	</script>
+</head>
+
+
+
+
+
+
+
+<body style="background-image:url(back.jpg)" onload="resett()">
+	<h1>Form to Register Students for Performing Art</h1>
+
+	<form id="formm" onreset="resett()">
+		<p style="color:red; visibility:hidden" id="message">Please fill up all the fields </p>
+		<label for="ptype" class="type"> &nbsp; &nbsp; Performance Type</label> <br />
+		<select id="ptype" name="ptype" onchange="hidea()">
+			<option value="">Choose</option>
+			<option value="solo">Solo</option>
+			<option value="duet">Duet</option>
+			<option value="concerto">Concerto</option>
+		</select><br /><br />
+
+		<div class="flex">
+			<div>
+				<label for="fname1"> &nbsp; &nbsp; First Name</label><br />
+				<input type="text" id="fname1" name="fname1"><br />
+			</div>
+			<div>
+				<label for="lname1"> &nbsp; &nbsp; Last Name</label><br />
+				<input type="text" id="lname1" name="lname1"><br />
+			</div>
+
+			<div>
+				<label for="SI1"> &nbsp; &nbsp; Studnet ID</label><br />
+				<input type="text" id="SI1" name="SI1"><br />
+			</div>
+		</div>
+
+		<div class="flex" id="flex2">
+			<div>
+				<label for="fname2"> &nbsp; &nbsp;  First Name</label><br />
+				<input type="text" id="fname2" name="fname2"><br />
+			</div>
+			<div>
+				<label for="lname2"> &nbsp; &nbsp; Last Name</label><br />
+				<input type="text" id="lname2" name="lname2"><br />
+			</div>
+			<div>
+				<label for="SI2"> &nbsp; &nbsp; Studnet ID</label><br />
+				<input type="text" id="SI2" name="SI2"><br />
+			</div>
+		</div>
+		<br /><br />
+
+		<div class="flex">
+			<div>
+				<label for="slevel"> &nbsp; &nbsp; Skill Level</label><br />
+				<select id="slevel" name="slevel">
+					<option value="">Choose</option>
+					<option value="beginner">Beginner</option>
+					<option value="intermediate">Intermediate</option>
+					<option value="padvance">Pre-advance</option>
+					<option value="advance">Advance</option>
+				</select><br /><br />
+			</div>
+			<div>
+				<label for="instrument"> &nbsp; &nbsp; Instrument</label><br />
+				<select id="instrument" name="instrument">
+					<option value="">Choose</option>
+					<option value="piano">Piano</option>
+					<option value="voice"> Voice</option>
+					<option value="string"> String</option>
+					<option value="organ"> Organ</option>
+					<option value="other"> Other</option>
+				</select><br />
+			</div>
+			<div>
+				<label for="building"> &nbsp; &nbsp; Location</label><br />
+				<input type="text" id="building" name="building"><br />
+			</div>
+			<div>
+				<label for="room"> &nbsp; &nbsp; Room</label><br />
+				<input type="text" id="room" name="room"><br />
+			</div>
+			<div>
+				<label for="time"> &nbsp; &nbsp; Time (8:00 am - 10:00 am) </label><br />
+				<select id="time" name="time">
+					<option value="">Choose</option>
+					<option value="8:00am - 8:30am">8:00am - 8:30am</option>
+					<option value="8:30am - 9:00am">8:30am - 9:00am</option>
+					<option value="9:00am - 9:30am">9:00am - 9:30am</option>
+					<option value="9:30am - 10:00am"> 9:30am - 10:00am</option>
+				</select><br />
+			</div>
+		</div>
+
+		<span> &nbsp; &nbsp; &nbsp;</span>
+		<button id="register" type=button onclick="validate()"> Register Student</button> &nbsp; &nbsp;
+		<button type="reset" id="reset" value="Reset"> Clear Form</button>
+		<br /><br />
+
+
+		<div style="padding:0px; margin:0px" class="box">
+			<p id="demo"> </p>
+		</div>
+	</form>
+</body>
+</html>

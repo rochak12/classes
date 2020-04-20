@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<title>Rochak Kunwar's Home Page-2</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+
+<body style="background-image:url(back.jpg)" onload="resett()">
+	<h1 style="color: forestgreen; text-align:center">Mortage Calculator</h1>
+
+<!--	<form action="   ">-->
+
+	<form onreset="resett()">
+		<p id="error1"></p>
+		<p id="error2"></p>
+
+		<label for="aprate">Annula Percentage Rate</label>
+		<input onchange="myFunction()" size="2" type="text" id="aprate" name="annualPercentageRate" placeholder="Annual Percentage rate"><br />
+
+		<label for="lterm">Loan Term</label>
+		<input type="text" onchange="myFunction()" id="lterm" name="loanterm" placeholder="Loan Term"><br />
+
+		<label for="lamount">Loan Amount</label>
+		<input type="text" onchange="myFunction()" id="lamount" name="loanamount" placeholder="Loan Amount"><br />
+
+		<button type="button" value="calculate" onclick="calculate()">Calculate</button>
+		<button type="reset" value="reset">Reset</button>
+
+		<br /><br />
+
+		<label for="mpayment">Monthly Payment</label>
+		<input type="text" id="mpayment" name="monthlypayment" placeholder="Monthly Payment" readonly><br />
+
+
+
+
+
+		<script>
+			var set;
+			function myFunction()
+			{
+				if (set == 1){
+					document.getElementById("aprate").onchange = function () { calculate() };
+					document.getElementById("lterm").onchange = function () { calculate() };
+					document.getElementById("lamount").onchange = function () { calculate() };
+			}
+			}
+				function calculate() {
+					var apr = document.getElementById("aprate").value;
+					var lterm = document.getElementById("lterm").value;
+					var lamount = document.getElementById("lamount").value;
+					var tempapr = apr;
+					var templterm = lterm;
+					var templamount = lamount;
+					var fff;
+
+					if ((apr * 1) != tempapr || (lterm * 1) != templterm || (lamount * 1) != templamount || apr == "" || lamount == "" || lterm == "") {
+						if ((apr * 1) != tempapr || apr == "") {
+							document.getElementById("aprate").value = "Please input number between 0 and 25.00%";
+							document.getElementById("aprate").focus();
+							fff = 1;
+						}
+						if ((lterm * 1) != templterm || lterm == "") {
+							document.getElementById("lterm").value = "Please input only numbers between zero and less than equal to 40";
+							if (fff == 1)
+								;
+							else
+							{ document.getElementById("lterm").focus(); fff = 2 }
+						}
+
+						if ((lamount * 1) != templamount || lamount == "") {
+							document.getElementById("lamount").value = "Please input numbers only";
+							if (fff == 1 || fff == 2)
+								;
+							else
+								document.getElementById("lamount").focus();
+						}
+						set = 1;
+						return;
+					}
+
+					if (apr <= 0 || apr >= 25.0 || lterm <= 0.0 || lterm > 40) {
+						if (apr < 0 || apr > 25.0) {
+							document.getElementById("aprate").value = "Only between 0 and 25.00%";
+							document.getElementById("aprate").focus();
+							fff = 1;
+						}
+
+						if (lterm <= 0.0 || lterm > 40) {
+							document.getElementById("lterm").value = "more than zero and less or equal to 40 only";
+							if (fff == 1)
+								;
+							else
+								document.getElementById("lterm").focus();
+						}
+						set = 1;
+						return;
+					}
+
+					else if (apr > 0 || apr < 25 || lterm > 0 || lterm <= 40) {
+						var c = (apr / 100) / 12;
+						var poww = Math.pow((1 + c), lterm);
+						var mpayment = lamount * c * poww / (poww - 1);
+					    mpayment = mpayment.toFixed(2);
+						document.getElementById("mpayment").value = mpayment;
+						set = 1;
+					}
+				}
+
+
+				function resett() {
+					document.getElementById("aprate").focus();
+					set = 0;
+				}
+
+
+
+		</script>
+	</form>
+
+</body>
+</html>

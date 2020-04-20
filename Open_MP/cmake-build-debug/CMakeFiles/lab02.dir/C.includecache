@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Rochak/Desktop/Open_MP/lab02.c
+btest.h
+C:/Users/Rochak/Desktop/Open_MP/btest.h
+limits.h
+-
+

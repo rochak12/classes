@@ -1,0 +1,29 @@
+Alex Bentley
+
+1.  Project Title / One sentence description:
+Web Forum - A place for people to share/discuss ideas. 
+
+2.  The Heroku URL for your web application:
+https://powerful-chamber-67763.herokuapp.com/forum_project/index.php
+
+3.  The GitHub URL for your source code repository:
+https://github.com/axle12693/cs313-php/tree/master/web/forum_project
+
+4.  A link to the SQL file that contains the commands used to create your tables (e.g. a link to the myDb.sql file at GitHub, or something similar).
+https://github.com/axle12693/cs313-php/tree/master/db
+forum_db_Setup.sql
+forum_db_deletion_setup.sql
+
+5.  Please provide a brief description of what your project does and how to use the application. Make sure to include any required information like a username and password.
+index.php is a list of forum categories, and which forums are in them. You can click on one to navigate to a forum, which has a list of posts. Click on a post to view its content, and a list of comments on it. Almost every page on the site will allow you to do several things: log in/sign up/log out, navigate to your current forum or to the main page.
+
+Once signed in, a user can create posts and comments, and can edit or delete their own posts and comments. I encourage you to sign up for an account.
+
+A logged-in admin can delete any post or comment. The admin account for your use is:
+username: testadmin 
+password: fortyone
+
+6.  Briefly describe any pieces of the assignment that are not yet working correctly.
+Theoretically, everything that you can access is working correctly. There are several things I would have liked to implement, such as admins being able to create more forums and forum categories (or edit and delete those as well). I also would have liked to use some sort of verification for signing up - email, and maybe even captcha.
+
+I believe that I've made it pretty secure as far as the scope of this class, however I discovered (and fixed, I hope) a problem that allowed some form spoofing that could allow someone to edit any post or comment, regardless of who created it. I have to assume there are other security flaws that I have no idea about.

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<title>Ajax rexuest </title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <style>
+ table{
+ border:1px solid;
+ }
+ 
+ 
+td, th {
+	border: 1px solid black;
+	text-align: left;
+	padding: 8px;
+	margin:0 ;
+}
+
+ 	button[type=button] {
+			width: auto;
+		}
+ </style>
+ <script>
+ 
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    	build(this.responseText);
+    }
+  };
+				xhttp.open("GET", "assign10.php", true);
+			xhttp.send();
+		}
+   
+   
+   
+   function build (str)
+   {var strin = ""
+  
+      var myObj = JSON.parse(str);
+      strin = "<table> <tr> <td>Filename</td><td>Type</td><td>CWD</td><td>Action</td></tr>" 
+      for ( var i = 0; i < myObj.length ; i++)
+      {
+         strin = strin + "<tr> <td>" + myObj[i].fileName + "</td><td>" + myObj[i].fileType + "</td><td>" + myObj[i].cwd + "</td><td>" + "<button type='button' onclick='window.location=\"" + myObj[i].fileName +"\"'>Click to display </button>" + "</td></tr>";
+   }  
+   strin = strin + "</table>";  
+   document.getElementById("demo").innerHTML = strin;
+   }
+   
+   
+	</script>
+</head>
+
+
+<body onload="loadDoc()">
+	<header>
+		<span>  </span><br /><span></span>
+		<h1> List of Directory</h1>
+	</header><hr /><br />
+<p id="demo"></p>
+
+
+	</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

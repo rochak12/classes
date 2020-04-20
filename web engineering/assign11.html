@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<title>assignment 6</title>
+	<link rel=StyleSheet type="text/css" href="style.css" />
+	<!--http://157.201.194.254/~rochak/style.css">-->
+	<style>
+
+		/*External */
+		table {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+			background-color: aliceblue;
+		}
+
+		td, th {
+			border: 1px solid black;
+			text-align: left;
+			padding: 8px;
+		}
+
+		/*for different color in rows*/
+		tr:nth-child(odd) {
+			background-color: white;
+		}
+		/*local*/
+		h1 {
+			color: forestgreen;
+			text-align: center;
+		}
+
+		/*External*/
+		form {
+			/*/ make 500px to make align everything together*/
+			width: 800px;
+			margin: 100px auto;
+			background-color: #f2f2f2;
+			padding: 20px;
+			border-radius: 5px;
+		}
+	</style>
+</head>
+
+<body style="background-image:url(back.jpg)" onload="resett()">
+	<h1>Buyer's Calculator</h1>
+
+	<form action="assign11.php" method="get" onsubmit="return submitt();" onreset="resett()">
+
+
+
+		<label for="fname">First Name</label><br />
+		<input type="text" id="fname" name="firstname" placeholder="Your name.."><br />
+
+		<label for="lname">Last Name</label><br />
+		<input type="text" id="lname" name="lastname" placeholder="Your last name.."><br />
+
+		<label for="address">Address [street, city, state, zip]</label><br />
+		<input type="text" id="address" name="address" placeholder="Your Address.."><br />
+
+		<label for="phone">Phone [###-###-####]</label><br />
+		<input type="text" id="phone" name="phone" placeholder="Your Phone Number.."><br />
+
+
+		<h1>Select item you want to buy</h1>
+		<table id="mytable">
+			<tr>
+				<th>Choose</th>
+				<th>Items</th>
+				<th>Price</th>
+			</tr>
+
+			<tr>
+				<td><input type="checkbox" value="25.00" name="c[]" id="1c" onclick="total()"></td>
+				<td> <img src="flower.jpg" alt="Flowers Gift" width="100" height="100"></td>
+				<td>$25.00</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="22.00" name="c[]" id="2c" onchange="total()"></td>
+				<td><img src="windchime.jpg" alt="Wind chime Photo" width="100" height="100"></td>
+				<td>$22.00</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="50.0" name="c[]" id="3c" onchange="total()"></td>
+				<td><img src="choclate.jpg" alt="Choclate Photo" width="100" height="100"></td>
+				<td>$50.0</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="22.56" name="c[]" id="4c" onchange="total()"></td>
+				<td><img src="think.jpeg" alt="Think Fast and Slow by Daniel Kanheman" width="100" height="100"></td>
+				<td>$22.56</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="16.00" name="c[]" id="5c" onchange="total()"></td>
+				<td><img src="elon.jpeg" alt="Elon Musk Biography by Aslee" width="100" height="100"></td>
+				<td>$16.00</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="15.50" id="6c" name="c[]" onchange="total()"></td>
+				<td><img src="nudge.jpg" alt="Nudge by Richard Thaler and Sunstein" width="100" height="100"></td>
+				<td>$15.50</td>
+			</tr>
+			<tr style="background-color:aquamarine">
+				<td>Total Price</td>
+				<td></td>
+				<td id="total"></td>
+			</tr>
+		</table>
+
+
+		<h1>CheckOut</h1>
+
+		<p>
+			<b>Payment type</b><br />
+			<input type="radio" value="Visa" name="money" id="cy2">Visa<br />
+			<input type="radio" value="Master Card" name="money" id="cy3">Master Card<br />
+			<input type="radio" value="American Express" name="money" id="cy4">American Express<br />
+		</p><br />
+
+		<label for="cnumber">Credit Card Number [$$$$-$$$$-$$$$-$$$$]</label><br />
+		<input type="text" id="cnumber" name="cnumber" placeholder="Card Number.."><br />
+
+		<label for="expdate">Expiration Date [$$/$$]</label><br />
+		<input type="text" id="expdate" name="expdate" placeholder="Card Expiration Date.."><br />
+
+		<button type="submit" value="submit">Submit</button>
+		<button type="reset" value="Reset"> Reset</button>
+
+	</form>
+
+
+
+
+	<script>
+			var p;
+			var po;
+			var iarray = [];
+			var z;
+
+
+			function check(p) {
+				var i;
+				for (i = 0 ; i < iarray.length; i++)
+					if (iarray[i] < p)
+						return true;
+				return false;
+			}
+
+			function priority(po) {
+				iarray.push(po);
+			}
+
+
+			function phonenumber(inputtxt)
+			{
+				var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+				if(inputtxt.match(phoneno))
+					return true;
+				else
+					return false;
+			}
+
+			function cardNumber(inputtxt) {
+				var cardo = /^\(?([0-9]{4})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+				if (inputtxt.match(cardo))
+					return true;
+				else
+					return false;
+			}
+
+			function expDate(inputtxt) {
+				var piece = inputtxt.split("/", 2);
+				if (piece[0] < 13 && piece[0] > 0 && piece[1] > 18 && piece[1] < 33)
+					return true;
+				else
+					return false;
+			}
+
+			function submitt() {
+				iarray = [];
+				z = 0;
+				var vfname = document.getElementById("fname").value;
+				var vlname = document.getElementById("lname").value;
+				var vaddress = document.getElementById("address").value;
+				var vphone = document.getElementById("phone").value;
+				var vcnumber = document.getElementById("cnumber").value;
+				var vexpdate = document.getElementById("expdate").value;
+				var tempPhone = vphone;
+				var tempcnumber = vcnumber;
+				var tempexpdate = vexpdate;
+
+
+				if (vfname == "") {
+					z = 1;
+					document.getElementById("fname").value = "Please fill your first name";
+					priority(1);
+					document.getElementById("fname").focus();
+					document.getElementById("fname").select();
+				}
+
+				if (vlname == "") {
+					z = 1;
+					document.getElementById("lname").value = "Please fill your last name";
+					if (!(check(2))) {
+						priority(2);
+						document.getElementById("lname").focus();
+						document.getElementById("lname").select();
+					}
+				}
+
+				if (vaddress == "") {
+					z = 1;
+					document.getElementById("address").value = "Please fill your address";
+					if (!(check(3))){
+						document.getElementById("address").focus();
+						document.getElementById("address").select();
+						priority(3);
+					}
+				}
+
+
+				if (!(phonenumber(vphone))) {
+					z = 1;
+					document.getElementById("phone").value = "Please input in the valid format as above";
+					if (!(check(4))){
+						priority(4);
+						document.getElementById("phone").focus();
+						document.getElementById("phone").select();
+					}
+				}
+
+
+
+
+				if (!(cardNumber(vcnumber))) {
+					z = 1;
+					document.getElementById("cnumber").value = "Please input in the valid format as above";
+					if (!(check(5)))
+					{
+						priority(5);
+						document.getElementById("cnumber").focus();
+						document.getElementById("cnumber").select();
+					}
+				}
+
+				if (!(expDate(vexpdate))) {
+					z = 1;
+					document.getElementById("expdate").value = "Please input valid expiration date";
+					if (!(check(6)))
+					{
+						document.getElementById("expdate").focus();
+						document.getElementById("expdate").select();
+					}
+				}
+
+				if (z == 0)
+					return true;
+				else
+					return false;
+			}
+
+		/*	function total() {
+				var total = 0;
+				var dom = document.getElementById("mytable");
+				for (var index = 1; index < dom.rows.length; index++) {
+					if (dom.row[index].cells[0].checked) {
+						total = total + (dom.row[index].cells[0].value * 1);
+					}
+				}
+				document.getElementById("total").innerHTML = total;
+			}
+			*/
+
+			function total() {
+				if (document.getElementById("1c").checked) {
+					var dom = document.getElementById("1c");
+					var a = dom.value * 1;
+				}
+				else
+					a = 0.0;
+				if (document.getElementById("2c").checked)
+					var b = document.getElementById("2c").value * 1;
+				else
+					b = 0;
+				if (document.getElementById("3c").checked)
+					var c = document.getElementById("3c").value * 1;
+				else
+					c = 0;
+				if (document.getElementById("4c").checked)
+					var d = document.getElementById("4c").value * 1;
+				else
+					d = 0;
+				if (document.getElementById("5c").checked)
+					var e = document.getElementById("5c").value * 1;
+				else
+					e = 0;
+				if (document.getElementById("6c").checked)
+					var f = document.getElementById("6c").value * 1;
+				else
+					f = 0;
+
+				var total = a + b + c + d + e + f;
+				document.getElementById("total").innerHTML = total.toFixed(2);
+			}
+
+				function resett() {
+					document.getElementById("fname").focus();
+				}
+
+	</script>
+</body>
+</html>

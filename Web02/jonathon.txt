@@ -1,0 +1,93 @@
+1. Project title / one sentence description:
+> Show Tracker - A SPA that allows users to keep track of the shows they have watched.
+
+2. The Heroku URL for your web application:
+> https://pure-eyrie-94336.herokuapp.com/project2
+
+3. The GitHub URL for your source code repository:
+> https://github.com/Naxlin/cs313-node
+
+4. Please provide a brief description of what your project does and how to use the application. Make sure to include any required information like a username and password.
+> When you first visit the page, you will see a list of the shows in the database.
+> If you don't have an account you'll need to signup, which is an option on the first page.
+> When you signin/up you will be taken to a page that displays your list.
+> If you wish to add or update a show, click on the button on your list page that is so indicated. This button takes you to a new page that is used for adding a new show or updating one from the list on the right.
+> If you add a new show there are three required fields, title, episodes, and description. When all of those are filled out you can click on the add show button to add the show to your list and the database.
+> Or if you want to update a show, you can search the list on the right by typing in the title of the show form, this will narrow the results on the right side. Once you see a show you'd like to add on the right side, you can click on it, and it will populate the form with the values for the show and the add show button will change to update show. If you change values here and click the update show button those values will be updated in the database and on your list. Once clicked you are taken to your list.
+> If you want to remove a show from your list, each row contains an 'X' button that allows you to do so when clicked.
+
+5. Briefly describe any pieces of the assignment that are not yet working correctly.
+> There were some extra things in the proposal that time did not allow for, so they have not been implemented. Everything that I undertook in some way, has been completed fully.
+
+--------------------------------
+Project Self-assessment
+--------------------------------
+For each of the following requirements, please replace the "(YES/NO)" with either "YES" or "NO" as to whether or not your work met this requirement.
+
+Requirements
+------------
+Yes - (YES/NO) 1. Your web application is running in Heroku.
+Yes - (YES/NO) 2. Your latest source code is in GitHub.
+Yes - (YES/NO) 3. Your web application is hosted on Node.js.
+Yes - (YES/NO) 4. Your web application exposes one or more web services in Node.js.
+Yes - (YES/NO) 5. Your web application consumes one or more of your web services from the browser.
+Yes - (YES/NO) 6. Your web application has a data layer of either a database or third-party web service.
+
+For each of the following criteria, please replace the "(1-5)" with either the "1", "2", "3", "4", or "5" category you feel best describes your work.
+
+Categories
+----------
+1 - Some attempt was made
+2 - Developing, but significantly deficient
+3 - Slightly deficient, but still mostly adequate
+4 - Meets requirements
+5 - Shows creativity and excels above and beyond requirements
+
+Criteria
+----------
+(5) 1. Professional look and feel.
+(5) 2. Accomplishes a meaningful/interesting task.
+(5) 3. Demonstrates skill with HTML, CSS, and JavaScript.
+(5) 4. Demonstrates skill with Node.js.
+(5) 5. Demonstrates skill with Express.
+(5) 6. Demonstrates skill with web services.
+(5) 7. Demonstrates skill with client/server communication.
+(5) 8. Overall project evaluation.
+
+9. Finally, please provide an overall description/justification of the categories you selected.
+Professional look and feel:
+> I spent hours on the css to get things looking decent. The color choices are mellow and the design pleasing.
+Accomplishes a meaningful/interesting task:
+> Keeping track of the shows you have watched is a very interesting idea, that would allow you to have a handy reference to the shows you are currently watching and the shows you have watched, so you could easily continue watching something where you left off or share shows you have watched with others.
+Demonstrates skill with HTML, CSS, and JavaScript:
+> Slim HTML through ejs, allowed for linking the head, header, nav, and js to the places in the HTML that needed them, making the code thinner.
+> CSS was added in such a way that floats made organizing things easier, and some margins to make things line up nicely.
+> Client-side validation, helper functions, the goTo() nav function, and httprequests were all used in such a way that the code is quite space efficient for everything that it does.
+Demonstrates skill with Node.js:
+> I segregated specific routing from the index.js, so most of the functionality for project 2 is located in the project_modules/project2.js file. This separation allows for all of the second half of the semester to be connected to the index.js file, without cluttering that file with tons and tons of code.
+> The crypto module was used for password hashing and comparing.
+> Complicated queries to the database sometimes required embedded pool.queries, since pools are async and some queries rely on the result of the previous ones. These were efficiently written.
+> Every response conforms to the success:true/false object design, so the if statements in the client-side could use the if (res.success) notation to determine whether to do something or not.
+> Much more.
+Demonstrates skill with Express:
+> Express is for the routing and such, much of the initialization for Express can be found in index.js, then the routing is found in project_modules/project2.js. Since Express is the main thing that we used Node.js for, everything from the last section applies here.
+Demonstrates skill with web services:
+> I have tons of web services
+	> signin - compares the provided credentials to those stored in the database. Sets session variables.
+	> signout - resets the session and its variables.
+	> signup - takes the password and encrypts it with a random salt and puts the username, password hash, and salt in the database.
+	> userExists - checks if the user already exists, used to make sure usernames are unique.
+	> getGenres - returns all genres in the database.
+	> getShows - returns all shows that fit the provided filter, which if is 'allShows' will return all the shows in the database.
+	> getShow - gets a single show and all of its information and the user's watched table.
+	> getShowGenres - gets the genres for the above show.
+	> addGenre - adds a new genre to the database, if it doesn't exist.
+	> addShow - puts a new show in the database, including the users watched table and the associated genres.
+	> updateShow - updates the values of a show in the database, including the users watched table and the associated genres.
+	> getPopular - gets the list of all the shows in the database for the popular shows page, which is the first page of the application.
+	> getYourList - gets the list of shows associated with the user in the session variable.
+	> removeShow - removes a show association with a specific user, meaning the watched table row is removed for that show and user.
+Demonstrates skill with client/server communication:
+> I only send json back and forth, so the communication is clean and purposeful. (Purposeful is shown in the description of the web service points described above, because each is tailored for a specific purpose.)
+Overall project evaluation:
+> Overall a rediculously big application for the time given and yet a fun and challenging accomplishment. I believe I did extremely well given the constraints for time I have had with all of my crazy classes this semester.

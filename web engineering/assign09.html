@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<title>Ajax rexuest </title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+
+<body>
+	<header>
+		<span>  </span><br /><span></span>
+		<h1>AJAX Working</h1>
+	</header><hr /><br />
+	<div class="box">
+		<h1> Select a Country</h1>
+		<input type="radio" name="country" id="c1" value="usa" /> US
+		<input type="radio" name="country" id="c2" value="mexico" /> Mexico
+		<input type="radio" name="country" id="c3" value="canada" />Canada
+		<input type="radio" name="country" id="c4" value="russia" />Russia
+
+
+
+
+		<h1>The XMLHttpRequest Object</h1>
+		<button type="button" onclick="loadDoc()">Change Content</button>
+		<p id="demo"></p>
+	</div>
+
+
+	<script>
+function loadDoc() {
+var str = "";
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    str = "<pre>" + this.responseText + "</pre>";
+      document.getElementById("demo").innerHTML =
+      str;
+    }
+  };
+
+
+
+    var val;
+    var i;
+			var dom = document.getElementsByName("country");
+			for (i = 0; i < dom.length; i++) {
+				if (dom[i].checked) {
+					val = dom[i].value;
+				}
+			}
+
+
+
+			if (val == 'usa')
+				xhttp.open("GET", "http://157.201.194.254/~cs213/usa.txt", true);
+
+			if (val == 'mexico')
+				xhttp.open("GET", "http://157.201.194.254/~cs213/mexico.txt", true);
+
+			if (val == 'canada')
+				xhttp.open("GET", "http://157.201.194.254/~cs213/canada.txt", true);
+
+			if (val == 'russia')
+				xhttp.open("GET", "http://157.201.194.254/~cs213/russia.txt", true);
+
+			xhttp.send();
+}
+	</script>
+
+
+
+
+
+
+	<div class="box">
+		<h1> Type a Country's file name</h1>
+		<input type="text" id="fileName" name="fileName" placeholder="enter a filenameonly  with .txt" /><br />
+
+
+		<h1>The XMLHttpRequest Object</h1>
+		<button type="button" onclick="loadDoc2()">Change Content</button>
+		<p id="demo2"></p>
+	</div>
+
+	<script>
+
+
+ function loadDoc2() {
+	val2 = document.getElementById("fileName").value;
+	str2 = "";
+	str3 = "";
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+  	if (this.readyState == 4 && this.status == 200) {
+  		if (val2 == 'usa.txt' || val2 == 'mexico.txt' || val2 == 'canada.txt' || val2 == 'russia.txt') {
+  			str2 = "<pre>" + this.responseText + "</pre>";
+  			document.getElementById("demo2").innerHTML = str2;
+  		}
+  		else {
+  			var myObj = JSON.parse(this.responseText);
+  			for (var i = 0; i < 3 ; i++) {
+  				str3 = str3 + myObj.students[i].first + " "
+  				+ myObj.students[i].last + "<br/>" +
+				myObj.students[i].address["city"] + ", " + myObj.students[i].address["state"] + ", " + myObj.students[i].address["zip"] + "<br/>" +
+				 myObj.students[i].major + "<br/>" +  myObj.students[i].gpa + "<br/> <br/>";
+  			}
+  			document.getElementById("demo2").innerHTML = str3;
+  		}
+  	}
+  	};
+
+
+
+  	if (val2 == 'usa.txt' || val2 == 'mexico.txt' || val2 == 'canada.txt' || val2 == 'russia.txt'){
+  		xhttp.open("GET", "http://157.201.194.254/~cs213/" + val2, true);
+  	}
+  	else{
+  		xhttp.open("GET", "http://157.201.194.254/~cs213/json.txt", true);
+  	}
+  	xhttp.send();
+  }
+	</script>
+
+
+</body>
+</html>

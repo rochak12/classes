@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<title>assignment 12</title>
+	<link rel=StyleSheet type="text/css" href="style.css" />
+	<style>
+
+		h1 {
+			color: forestgreen;
+			text-align: center;
+		}
+
+		/*External*/
+		form {
+			/*/ make 500px to make align everything together*/
+			width: 800px;
+			margin: 0px auto;
+			background-color: #f2f2f2;
+			padding: 20px;
+			border-radius: 5px;
+		}
+   
+   .flex{
+   display:flex; 
+   }
+   
+   
+   input[type=text], select {
+	width: 200px;
+	margin: 12px 20px;
+}
+   
+	</style>
+
+	<script>
+		var p;
+		var po;
+		var iarray = [];
+		var z;
+		var scity;
+		var sstate;
+		var ecity;
+		var estate;
+		
+
+
+		function check(p) {
+			var i;
+			for (i = 0 ; i < iarray.length; i++)
+				if (iarray[i] < p)
+					return true;
+			return false;
+		}
+
+		function priority(po) {
+			iarray.push(po);
+		}
+
+
+		function resett() {
+			document.getElementById("scity").select();
+					}
+
+		function function1() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function () {
+				if (this.readyState == 4 && this.status == 200) {
+					build(this.responseText);
+				}
+			};
+
+			var urlj = "http://157.201.194.254/cgi-bin/cs213/mileageAjaxJSON?"
+      + "startCity=" + scity 
+      + "&startState=" + sstate
+      + "&endCity=" + ecity
+      + "&endState=" + estate;
+         
+			xhttp.open("GET", urlj , true);
+			xhttp.send();
+		}
+
+		function build(str) {
+      var obj = JSON.parse(str);
+      var stri = "<p>Start City: " + obj.trip.startcity + 
+                 "</p>Start State: " + obj.trip.startstate +
+                 "</p>End City: " + obj.trip.endcity +
+                  "</p>End State: " + obj.trip.endstate +
+                  "</p>Miles:    "   + obj.trip.miles; 
+                 
+     if (obj.trip.tmode){
+         stri += "</p>Mode: ";   
+         for (var i = 0; obj.trip.tmode[i] ; i++){
+                 stri += obj.trip.tmode[i]; 
+                 if (obj.trip.tmode[i+1]){
+                     stri += ", ";
+                     }
+                 }
+      }
+      document.getElementById("demo").innerHTML = stri;         
+    }
+
+
+
+
+
+
+
+		function validate() {
+			iarray = [];
+			z = 0;
+			scity = document.getElementById("scity").value;
+			sstate = document.getElementById("sstate").value;
+			ecity = document.getElementById("ecity").value;
+			estate = document.getElementById("estate").value;
+			
+
+			if (scity == "") {
+				z = 1;
+				document.getElementById("scity").value = "Please fill your starting city";
+				priority(1);
+				document.getElementById("scity").select();
+			}
+
+
+			if (sstate == "") {
+				z = 1;
+				document.getElementById("sstate").value = "Please fill your starting state";
+				if (!(check(2))) {
+					priority(2);
+					document.getElementById("sstate").select();
+				}
+			}
+
+			if (ecity == "") {
+				z = 1;
+				document.getElementById("ecity").value = "Please fill your end city";
+				if (!(check(3))) {
+					document.getElementById("ecity").select();
+					priority(3);
+				}
+			}
+
+
+			if (estate == "") {
+				z = 1;
+				document.getElementById("estate").value = "Please fill your end state";
+				if (!(check(4))) {
+					priority(4);
+					document.getElementById("estate").select();
+				}
+			}
+
+
+			if (z == 0){
+				function1();}
+			else
+				return false;
+
+		}
+
+	</script>
+
+
+</head>
+
+<body style="background-image:url(back.jpg)" onload="resett()">
+	<h1>Mileage Calculator</h1>
+ 
+ 
+	<form onreset="resett()">
+
+<div class="flex">
+			<div>
+				<label for="scity"> &nbsp; &nbsp; Start City</label><br />
+				<input type="text" id="scity" name="scity"><br />
+			</div>
+			<div>
+			<label for="sstate"> &nbsp; &nbsp; Start State</label><br />
+			<input type="text" style="width:80px" maxlength="2" id="sstate" name="sstate"><br />
+		</div>
+		</div>
+
+		<div class="flex">
+			<div>
+				<label for="ecity"> &nbsp; &nbsp; End City</label><br />
+				<input type="text" id="ecity" name="ecity"><br />
+			</div>
+			<div>
+				<label for="estate"> &nbsp; &nbsp; End State</label><br />
+				<input type="text" style="width:80px" id="estate" maxlength="2" name="estate"><br />
+			</div>
+		</div>
+
+	<!--<button type="submit" value="submit">Submit</button>-->
+   <span> &nbsp; &nbsp;</span>
+    <button type=button onclick="validate()"> Calculate </button> &nbsp; &nbsp;
+		<button type="reset" value="Reset"> Reset</button>
+   <br/>
+   <div class = "box">
+   <p id="demo"> </p>
+   </div>
+	</form>
+</body>
+</html>
